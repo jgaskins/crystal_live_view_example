@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Live View Example</title>
+  </head>
+
+  <body>
+    <h1><a href="/">Home</a></h1>
+
+    <% live_view do %>
+      <button live-click="decrement">-</button>
+      <span><%= @count %></span>
+      <button live-click="increment">+</button>
+      <time><%= Time.now.to_unix_f %></time>
+    <% end %>
+
+    <script src="/live-view.js"> </script>
+  </body>
+</html>

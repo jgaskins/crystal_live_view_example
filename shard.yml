@@ -1,0 +1,13 @@
+name: live_view_example
+version: 0.1.0
+
+authors:
+  - Jamie Gaskins <jgaskins@gmail.com>
+
+targets:
+  live_view_example:
+    main: src/live_view_example.cr
+
+crystal: 0.27.2
+
+license: MIT
