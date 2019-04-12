@@ -24,16 +24,20 @@ module LiveViewExample
 end
 
 class HomePage
-  include LiveView
+  def initialize(@io : IO)
+  end
 
+  ECR.def_to_s("views/home_page.ecr")
+end
+
+class ClickCounter < LiveView
   def initialize(@io : IO)
     @count = 0
   end
 
-  ECR.def_to_s("views/home_page.ecr")
+  ECR.def_to_s "views/click_counter.ecr"
 
   def mount(socket)
-    every(1.second) { update(socket) }
   end
 
   def unmount(socket)
@@ -46,6 +50,20 @@ class HomePage
     when "decrement"
       update(socket) { @count -= 1 }
     end
+  end
+end
+
+class CurrentTime < LiveView
+  ECR.def_to_s "views/current_time.ecr"
+
+  def mount(socket)
+    every(1.second) { update(socket) }
+  end
+
+  def unmount(socket)
+  end
+
+  def handle_event(name, socket)
   end
 end
 

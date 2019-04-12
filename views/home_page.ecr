@@ -7,12 +7,8 @@
   <body>
     <h1><a href="/">Home</a></h1>
 
-    <% live_view do %>
-      <button live-click="decrement">-</button>
-      <span><%= @count %></span>
-      <button live-click="increment">+</button>
-      <time><%= Time.now.to_unix_f %></time>
-    <% end %>
+    <%= ClickCounter.new(@io) %>
+    <%= CurrentTime.new(@io) %>
 
     <script src="/live-view.js"> </script>
   </body>

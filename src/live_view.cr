@@ -3,7 +3,7 @@ require "uuid/json"
 require "json"
 require "http/web_socket"
 
-module LiveView
+abstract class LiveView
   CHANNELS = Hash(String, Channel).new
 
   # spawn do
@@ -21,6 +21,9 @@ module LiveView
     end
   end
   @__mounted__ = false
+
+  def initialize(@io : IO)
+  end
 
   macro live_view(id = UUID.random, &block)
     @live_view_id = {{id}}
@@ -67,8 +70,8 @@ module LiveView
   def every(duration : Time::Span, &block)
     spawn do
       while mounted?
-        block.call
         sleep duration
+        block.call if mounted?
       end
     rescue ex
       STDERR.puts ex
@@ -81,23 +84,28 @@ module LiveView
   end
 
   def self.handle(socket)
-    channel = nil
+    channel_names = Array(String).new
 
     socket.on_message do |msg|
       json = JSON.parse(msg)
-      if channel.nil? && (channel = json["subscribe"]?)
-        LiveView::CHANNELS[channel.not_nil!.as_s].mount(socket)
+      if channel = json["subscribe"]?
+        channel_name = channel.not_nil!.as_s
+        channel_names << channel_name
+        LiveView::CHANNELS[channel_name].mount(socket)
       elsif event_name = json["event"]?
-        LiveView::CHANNELS[channel.not_nil!.as_s]
+        channel_name = json["channel"].not_nil!.as_s
+        LiveView::CHANNELS[channel_name]
           .handle_event(event_name.as_s, socket)
       end
     rescue JSON::ParseException
       # Fuck this message
+    rescue ex
+      STDERR.puts ex
+      STDERR.puts ex.backtrace
     end
 
     socket.on_close do |wat|
-      if channel
-        channel_name = channel.not_nil!.as_s
+      channel_names.each do |channel_name|
         ::LiveView::CHANNELS[channel_name].unmount(socket)
         ::LiveView::CHANNELS.delete channel_name
       end
@@ -126,6 +134,8 @@ module LiveView
   end
 
   class Channel
+    getter sockets
+
     def initialize(@live_view : LiveView, @render : -> String)
       @sockets = Set(HTTP::WebSocket).new
     end

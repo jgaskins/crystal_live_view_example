@@ -29,8 +29,14 @@ document.addEventListener('click', event => {
   var event_name = event.target.getAttribute('live-click');
 
   if(event_name) {
+    var channel = event
+      .target
+      .closest('[data-live-view]')
+      .getAttribute('data-live-view')
+
     live_view.send(JSON.stringify({
       event: event_name,
+      channel: channel,
     }));
   }
 });
