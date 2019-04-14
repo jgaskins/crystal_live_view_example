@@ -211,4 +211,4 @@ server = HTTP::Server.new([
 ])
 port = (ENV["PORT"]? || 8080).to_i
 puts "Listening on #{port}"
-server.listen port
+server.listen "0.0.0.0", port
