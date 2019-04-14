@@ -1,4 +1,11 @@
-<input type="search" live-input="search" value=<%= @query.inspect %> />
+<label>
+  Search the word list
+  <input
+    type="search"
+    live-input="search"
+    value=<%= @query.inspect %>
+  />
+</label>
 
 <% if @open %>
   <ul>
