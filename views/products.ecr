@@ -1,0 +1,11 @@
+<h2>Products</h2>
+
+<ul>
+  <%- @products.each do |product| -%>
+    <li>
+      <h3><%= product.name %></h3>
+      <strong>$<%= "%d.%02d" % product.price_cents.divmod(100) %></strong>
+      <p><%= product.description %></p>
+    </li>
+  <%- end -%>
+</ul>

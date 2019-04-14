@@ -7,9 +7,13 @@
   <body>
     <h1><a href="/">Home</a></h1>
 
-    <%= ClickCounter.new(@io) %>
-    <%= CurrentTime.new(@io) %>
+    <%= ClickCounter.new %>
+    <%= CurrentTime.new %>
+    <%= CheckboxExample.new %>
+    <%= TextBoxExample.new %>
+    <%= AutocompleteExample.new %>
+    <%= ProductCatalogExample.new %>
 
-    <script src="/live-view.js"> </script>
+    <%= LiveView.javascript_tag %>
   </body>
 </html>

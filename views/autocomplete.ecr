@@ -1,0 +1,11 @@
+<input type="search" live-input="search" value=<%= @query.inspect %> />
+
+<% if @open %>
+  <ul>
+    <% @results.each do |result| %>
+      <li live-click="select" live-value=<%= result.inspect %>>
+        <%= result %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

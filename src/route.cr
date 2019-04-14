@@ -130,15 +130,6 @@ module Route
       @request.path = old_path
     end
 
-    def websocket(context, &block : HTTP::WebSocket ->)
-      return if handled?
-
-      HTTP::WebSocketHandler.new do |socket, context|
-        block.call socket
-        handled!
-      end.call(context)
-    end
-
     def miss
       return if handled?
 

@@ -8,6 +8,14 @@ targets:
   live_view_example:
     main: src/live_view_example.cr
 
+dependencies:
+  neo4j:
+    github: jgaskins/neo4j.cr
+  pool:
+    github: ysbaddaden/pool
+  live_view:
+    github: jgaskins/live_view
+
 crystal: 0.27.2
 
 license: MIT
