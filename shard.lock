@@ -2,7 +2,7 @@ version: 1.0
 shards:
   live_view:
     github: jgaskins/live_view
-    commit: bfbf4163962f5e3edc2c10a6f36f8cf0ec221102
+    commit: 276ad30a09456351f994131acff359aa34d989ba
 
   neo4j:
     github: jgaskins/neo4j.cr

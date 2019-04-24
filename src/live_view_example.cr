@@ -33,10 +33,8 @@ end
 class App
   include HTTP::Handler
 
-  ECR.def_to_s("views/home_page.ecr")
-
   def call(context)
-    to_s(context.response)
+    ECR.embed "views/home_page.ecr", context.response
   end
 end
 
@@ -128,6 +126,7 @@ class AutocompleteExample < LiveView
   @query = ""
   @results = Array(String).new
   @open = false
+  @set_value = false
 
   # Need to have something to query against. This would normally be something
   # like a DB connection or whatever but we're just using a known list of words.
@@ -145,14 +144,21 @@ class AutocompleteExample < LiveView
       else
         @results = Array(String).new
       end
+
+      # We can also call `update` without a block, as shown here, to just update
+      # the UI with whatever state we have.
+      update socket
     when "select" # The user has selected an item from the dropdown
       @query = Query.from_json(data).value
       @open = false
+      set_value { update socket }
     end
+  end
 
-    # We can also call `update` without a block, as shown here, to just update
-    # the UI with whatever state we have.
-    update socket
+  def set_value
+    @set_value = true
+    yield
+    @set_value = false
   end
 
   struct Query
@@ -171,8 +177,11 @@ class ProductCatalogExample < LiveView
 
   def mount(socket)
     spawn do
+      start = Time.now
       @products = ListProducts.new.call
       update socket
+
+      puts "Sent products in #{Time.now - start}"
     end
   end
 

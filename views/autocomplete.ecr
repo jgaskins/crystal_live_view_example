@@ -3,7 +3,9 @@
   <input
     type="search"
     live-input="search"
-    value=<%= @query.inspect %>
+    <% if @set_value %>
+      value=<%= @query.inspect %>
+    <% end %>
   />
 </label>
 

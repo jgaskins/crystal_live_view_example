@@ -2,17 +2,30 @@
 <html>
   <head>
     <title>Live View Example</title>
+
+    <style>
+      a { color: blue; }
+
+      #app-nav a {
+        display: inline-block;
+        padding: 0.3em 0.5em;
+        margin: 0 0 1em;
+      }
+      #app-nav a:first-child { padding-left: 0 }
+    </style>
   </head>
 
   <body>
     <h1><a href="/">Home</a></h1>
 
-    <%= ClickCounter.new %>
-    <%= CurrentTime.new %>
-    <%= CheckboxExample.new %>
-    <%= TextBoxExample.new %>
-    <%= AutocompleteExample.new %>
-    <%= ProductCatalogExample.new %>
+    <main>
+      <%= ClickCounter.new %>
+      <%= CurrentTime.new %>
+      <%= CheckboxExample.new %>
+      <%= TextBoxExample.new %>
+      <%= AutocompleteExample.new %>
+      <%= ProductCatalogExample.new %>
+    </main>
 
     <%= LiveView.javascript_tag %>
   </body>
